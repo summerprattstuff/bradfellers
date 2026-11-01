@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fellers — Play better. Indianapolis.</title>
+  <meta name="description" content="Fellers is Brad Fellers’ golf program in Indianapolis. Accomplished adults and serious competitive students. Simulators, club fitting, and a coaching staff he trained himself.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,460;0,9..144,560;1,9..144,460;1,9..144,560&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%231c3d32' width='32' height='32'/%3E%3Ctext x='16' y='22' text-anchor='middle' fill='%23f3efe6' font-family='Georgia' font-size='16'%3EF%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --paper: #f3efe6;
+      --paper-2: #e8e2d4;
+      --white: #faf8f3;
+      --ink: #171915;
+      --ink-soft: #3e433c;
+      --muted: #5e645c;
+      --green: #1c3d32;
+      --green-2: #163229;
+      --line: rgba(23, 25, 21, 0.14);
+      --line-light: rgba(243, 239, 230, 0.22);
+      --brass: #8d7349;
+      --serif: "Fraunces", "Iowan Old Style", Palatino, serif;
+      --sans: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
+      --nav: 4.5rem;
+      --wrap: 72rem;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 1.0625rem;
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+    }
+    img { max-width: 100%; }
+    a { color: inherit; }
+    ::selection { background: var(--green); color: var(--paper); }
+
+    .skip {
+      position: absolute;
+      left: 1rem;
+      top: -4rem;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.6rem 0.9rem;
+      z-index: 20;
+    }
+    .skip:focus { top: 1rem; }
+
+    .wrap {
+      width: min(var(--wrap), calc(100% - 2.5rem));
+      margin-inline: auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: var(--nav);
+      display: flex;
+      align-items: center;
+      background: rgba(243, 239, 230, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid transparent;
+    }
+    .nav.scrolled { border-bottom-color: var(--line); }
+    .nav-inner {
+      width: min(var(--wrap), calc(100% - 2.5rem));
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .wordmark {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      letter-spacing: 0.22em;
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+    .mark {
+      width: 0.7rem;
+      height: 0.7rem;
+      background: var(--green);
+      display: inline-block;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      text-decoration: none;
+      border: 1px solid var(--green);
+      color: var(--green);
+      padding: 0.55rem 0.9rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .nav-cta:hover { background: var(--green); color: var(--paper); }
+    .menu-btn {
+      display: none;
+      background: none;
+      border: 1px solid var(--line);
+      padding: 0.45rem 0.7rem;
+      font: inherit;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+    }
+
+    .hero {
+      background: var(--green);
+      color: var(--paper);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-inner {
+      width: min(var(--wrap), calc(100% - 2.5rem));
+      margin-inline: auto;
+      padding: 4.5rem 0 4rem;
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr;
+      gap: 4rem;
+      align-items: end;
+      position: relative;
+      z-index: 1;
+    }
+    .eyebrow {
+      margin: 0 0 1.25rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: rgba(243, 239, 230, 0.72);
+    }
+    h1 {
+      font-family: var(--serif);
+      font-weight: 460;
+      font-size: clamp(3.4rem, 7vw, 6.4rem);
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+    h1 em {
+      font-style: italic;
+      font-weight: 460;
+    }
+    .lede {
+      max-width: 38rem;
+      margin: 1.75rem 0 0;
+      font-weight: 300;
+      font-size: 1.2rem;
+      line-height: 1.55;
+      color: rgba(243, 239, 230, 0.88);
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--paper);
+      color: var(--green);
+      padding: 0.85rem 1.15rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--paper);
+    }
+    .btn:hover { background: transparent; color: var(--paper); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--paper);
+      border-color: rgba(243, 239, 230, 0.4);
+    }
+    .btn-ghost:hover { background: var(--paper); color: var(--green); }
+    .btn-ink {
+      background: var(--green);
+      color: var(--paper);
+      border-color: var(--green);
+      cursor: pointer;
+      font: inherit;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      padding: 0.95rem 1.2rem;
+    }
+    .btn-ink:hover { background: var(--green-2); }
+
+    .hero-aside {
+      border-top: 1px solid var(--line-light);
+      padding-top: 1.25rem;
+    }
+    .hero-aside p {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 460;
+      font-size: 1.65rem;
+      line-height: 1.25;
+      font-style: italic;
+    }
+    .facts {
+      list-style: none;
+      margin: 1.5rem 0 0;
+      padding: 0;
+      display: grid;
+      gap: 0.85rem;
+    }
+    .facts li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.75rem;
+      align-items: baseline;
+      font-size: 0.95rem;
+      color: rgba(243, 239, 230, 0.86);
+    }
+    .facts span {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.08em;
+      font-size: 0.75rem;
+      color: var(--brass);
+    }
+    .flight {
+      position: absolute;
+      right: -4rem;
+      top: 10%;
+      width: min(46rem, 70vw);
+      height: auto;
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    section { padding: 5.5rem 0; }
+    section[id] { scroll-margin-top: 5.25rem; }
+    .kicker {
+      margin: 0 0 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--brass);
+    }
+    h2 {
+      font-family: var(--serif);
+      font-weight: 460;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      margin: 0;
+    }
+    h2 em { font-style: italic; }
+    .intro {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .intro p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 1.12rem;
+    }
+    .rule {
+      height: 1px;
+      background: var(--line);
+      border: 0;
+      margin: 0;
+    }
+
+    .programs { background: var(--white); }
+    .program-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      align-items: end;
+      margin-bottom: 2.5rem;
+    }
+    .program-head p {
+      max-width: 26rem;
+      margin: 0;
+      color: var(--muted);
+    }
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .card {
+      padding: 2.25rem 2.25rem 2.4rem 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .card + .card {
+      padding-left: 2.25rem;
+      padding-right: 0;
+      border-left: 1px solid var(--line);
+    }
+    .card h3 {
+      font-family: var(--serif);
+      font-weight: 460;
+      font-size: clamp(2rem, 3vw, 2.7rem);
+      margin: 0.2rem 0 1rem;
+      letter-spacing: -0.02em;
+    }
+    .card h3 em { font-style: italic; }
+    .card p { margin: 0 0 1rem; color: var(--ink-soft); }
+    .card p:last-of-type { margin-bottom: 1.4rem; }
+    .text-link {
+      color: var(--green);
+      font-size: 0.92rem;
+      letter-spacing: 0.04em;
+    }
+    .who {
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.75rem;
+    }
+    .step {
+      border-top: 1px solid var(--ink);
+      padding-top: 1rem;
+    }
+    .step strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.7rem;
+      font-weight: 460;
+      margin: 0.35rem 0 0.6rem;
+    }
+    .num {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.12em;
+      font-size: 0.75rem;
+      color: var(--brass);
+    }
+    .step p { margin: 0; color: var(--ink-soft); font-size: 0.98rem; }
+
+    .founder {
+      background: var(--green);
+      color: var(--paper);
+    }
+    .founder-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .founder h2 { color: var(--paper); }
+    .founder .kicker { color: #c6aa74; }
+    .founder p { margin: 0 0 1rem; color: rgba(243, 239, 230, 0.88); font-size: 1.12rem; }
+    .creds {
+      list-style: none;
+      margin: 1.5rem 0 0;
+      padding: 0;
+    }
+    .creds li {
+      padding: 0.85rem 0;
+      border-top: 1px solid var(--line-light);
+      font-size: 0.98rem;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .person {
+      background: var(--white);
+      padding: 1.6rem 1.5rem 1.7rem;
+      border-top: 2px solid var(--green);
+      min-height: 100%;
+    }
+    .person .role {
+      margin: 0;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      color: var(--brass);
+    }
+    .person h3 {
+      font-family: var(--serif);
+      font-weight: 460;
+      font-size: 1.85rem;
+      margin: 0.4rem 0 0.8rem;
+    }
+    .person p { margin: 0; color: var(--ink-soft); }
+
+    .note {
+      margin-top: 1.5rem;
+      color: var(--muted);
+      max-width: 40rem;
+    }
+
+    .places { background: var(--paper-2); }
+    .place {
+      display: grid;
+      grid-template-columns: 0.7fr 1.3fr;
+      gap: 2rem;
+      padding: 1.6rem 0;
+      border-top: 1px solid var(--line);
+    }
+    .place:last-child { border-bottom: 1px solid var(--line); }
+    .place h3 {
+      margin: 0.25rem 0 0;
+      font-family: var(--serif);
+      font-weight: 460;
+      font-size: 1.8rem;
+    }
+    .place p { margin: 0; color: var(--ink-soft); }
+    .where { margin: 0; letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.72rem; color: var(--muted); }
+
+    .visit-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+    .visit p { color: var(--ink-soft); }
+    .reach {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0 0;
+    }
+    .reach li { margin: 0.25rem 0; }
+    .reach a { color: var(--green); }
+    form {
+      background: var(--white);
+      padding: 1.5rem;
+      display: grid;
+      gap: 0.9rem;
+      border: 1px solid var(--line);
+    }
+    label {
+      display: grid;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    input, select, textarea {
+      font: inherit;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 0.75rem 0.8rem;
+      width: 100%;
+    }
+    textarea { min-height: 8rem; resize: vertical; }
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid var(--green);
+      outline-offset: 1px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+    }
+    .form-status {
+      margin: 0;
+      min-height: 1.2rem;
+      font-size: 0.95rem;
+      color: var(--green);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 1.4rem 0 2rem;
+    }
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .foot a { color: var(--ink-soft); }
+
+    @media (max-width: 900px) {
+      .menu-btn { display: inline-block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: var(--nav);
+        left: 0;
+        right: 0;
+        background: var(--paper);
+        border-bottom: 1px solid var(--line);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem 1.25rem 1.25rem;
+        gap: 0.9rem;
+      }
+      .nav-links.open { display: flex; }
+      .hero-inner,
+      .intro,
+      .founder-grid,
+      .visit-grid,
+      .split,
+      .method-grid,
+      .team-grid {
+        grid-template-columns: 1fr;
+      }
+      .card, .card + .card {
+        padding: 1.8rem 0;
+        border-left: 0;
+      }
+      .card + .card { border-top: 1px solid var(--line); }
+      .place, .form-row { grid-template-columns: 1fr; }
+      .program-head { flex-direction: column; align-items: start; }
+      .hero-inner { padding: 3.2rem 0 3rem; gap: 2.2rem; }
+      section { padding: 3.8rem 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="wordmark" href="#top"><span class="mark" aria-hidden="true"></span>Fellers</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#method">Approach</a></li>
+        <li><a href="#founder">Brad</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#places">Where</a></li>
+        <li><a class="nav-cta" href="#visit">Start a conversation</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <svg class="flight" viewBox="0 0 600 280" fill="none" aria-hidden="true">
+        <path d="M20 240 C 160 240, 220 40, 580 30" stroke="#f3efe6" stroke-width="1.5"/>
+        <circle cx="580" cy="30" r="4" fill="#f3efe6"/>
+      </svg>
+      <div class="hero-inner">
+        <div>
+          <p class="eyebrow">Indianapolis · Brad Fellers</p>
+          <h1>Play better.<br><em>That’s the work.</em></h1>
+          <p class="lede">Fellers is a golf program for people who already play and mean to play better. Accomplished adults. Serious students. Simulators, club fitting, and a staff trained by Brad himself — explained in plain language.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#visit">Start a conversation</a>
+            <a class="btn btn-ghost" href="#programs">See both programs</a>
+          </div>
+        </div>
+        <aside class="hero-aside">
+          <p>Confident teaching. An open door. That combination is the point.</p>
+          <ul class="facts">
+            <li><span>01</span> Data, not a hunch about the swing</li>
+            <li><span>02</span> Clubs fit by one of the best in the country</li>
+            <li><span>03</span> One standard, for adults and for students</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="idea">
+      <div class="wrap intro">
+        <h2>High standard. Easy to talk to.</h2>
+        <div>
+          <p>Some instruction hides in jargon. Some of it stays friendly and never gets specific. We are neither. The work is technical. The conversation is open. You should leave knowing what changed, why it changed, and what to practice next.</p>
+          <p style="margin-top:1rem">We look for people driven by heart — a score, a season, a standard they have not hit yet. A title is not required. Intent is. Enthusiasm is welcome here. So is a hard question.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <section class="programs" id="programs">
+      <div class="wrap">
+        <div class="program-head">
+          <h2>Two programs. <em>The same standard.</em></h2>
+          <p>Fearless Fellers is not a lighter version of the adult program. Both are built for people who are already serious.</p>
+        </div>
+        <div class="split">
+          <article class="card">
+            <p class="kicker">Accomplished players</p>
+            <h3>Fellers</h3>
+            <p>You run something, or you competed at a high level and you are done being casual about the one game you still play. You do not need the basics. You need the next gain, found on purpose.</p>
+            <p>We build the plan around the strokes you are actually giving away. Full swing, wedges, putting, and the clubs in the bag. Indoor bays when the numbers matter. The course when it is time to see if the change holds up.</p>
+            <p>You will know the plan. If something is not earning its place, we say so and we drop it.</p>
+            <p class="who">For CEOs, operators, and former athletes with a real game and a real calendar.</p>
+            <a class="text-link" href="#visit" data-program="Fellers">Ask about Fellers</a>
+          </article>
+          <article class="card" id="fearless">
+            <p class="kicker">Competitive students</p>
+            <h3><em>Fearless</em> Fellers</h3>
+            <p>Middle school through college. This is not a junior clinic, and it is not a casual lesson between seasons. Fearless Fellers is for students who intend to compete — high school, college, and the players who mean to go on from there.</p>
+            <p>Same coaches. Same technology. Same directness. What changes is the plan: practice that fits a school week, numbers a player can understand, and an honest read on where the game stands. Families are in the conversation. The player owns the work.</p>
+            <p>Fearless, here, means honest ambition. We want the student who is driven, and we will match that drive with a clear plan.</p>
+            <p class="who">For serious competitive students, middle school through college.</p>
+            <a class="text-link" href="#visit" data-program="Fearless Fellers">Ask about Fearless Fellers</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="method">
+      <div class="wrap">
+        <p class="kicker">How the golf gets better</p>
+        <h2>Measure it. Fit it.<br>Teach it. Say it.</h2>
+        <div class="method-grid">
+          <article class="step">
+            <span class="num">01</span>
+            <strong>See it</strong>
+            <p>Indoor simulators and launch data. Ball speed, spin, start line, strike. We stop arguing with a feeling and look at the shot.</p>
+          </article>
+          <article class="step">
+            <span class="num">02</span>
+            <strong>Fit it</strong>
+            <p>Brad is one of the best club fitters in the country. A better motion in the wrong club is still unfinished. Fitting sits inside the coaching.</p>
+          </article>
+          <article class="step">
+            <span class="num">03</span>
+            <strong>Teach it</strong>
+            <p>Full swing, short game, and putting, with specialists on the staff. The green gets the same attention as the tee.</p>
+          </article>
+          <article class="step">
+            <span class="num">04</span>
+            <strong>Say it</strong>
+            <p>You leave with the plan in words you can repeat. Open communication is not a courtesy. It is how the work sticks.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="founder" id="founder">
+      <div class="wrap founder-grid">
+        <div>
+          <p class="kicker">Founder</p>
+          <h2>Brad Fellers</h2>
+          <ul class="creds">
+            <li>2014 Indiana PGA Teacher of the Year</li>
+            <li>Consistently among Indiana’s top PGA coaches</li>
+            <li>Winner, Indiana PGA Professional Championship</li>
+            <li>Club fitting trusted at a national level</li>
+          </ul>
+        </div>
+        <div>
+          <p>Brad built Fellers, and he still sets the standard for it. Players know him as a coach who can see the ball honestly, and as a fitter who treats equipment as part of the lesson — not an errand you run somewhere else.</p>
+          <p>The people beside him are not a loose collection of names. Bruce, Noah, and Case are trained by Brad and trusted by him. You get his standard, whether or not he is the one standing in the bay that day.</p>
+          <p>The manner matches the golf. No performance. No closed room. Cotton shirt, golf shoes, and a straight answer.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="team">
+      <div class="wrap">
+        <p class="kicker">The staff</p>
+        <h2>Specialists, trained in one standard.</h2>
+        <div class="team-grid">
+          <article class="person">
+            <p class="role">Putting</p>
+            <h3>Bruce Rearick</h3>
+            <p>A national putting specialist, and the 2022 Indiana PGA Teacher of the Year. Bruce reads the stroke a player actually has, then fits the putter to that player. Tour players and serious amateurs trust him with the club that decides the score.</p>
+          </article>
+          <article class="person">
+            <p class="role">Coach</p>
+            <h3>Noah Gillard</h3>
+            <p>Competitive player, clear teacher. Noah came through Indiana University golf and still lives close to the level his students are chasing. He is direct, energetic, and easy to understand.</p>
+          </article>
+          <article class="person">
+            <p class="role">Coach</p>
+            <h3>Case Blodgett</h3>
+            <p>A PGA coach who would rather a player understand the change than collect tips. Case is steady, specific, and glad to be in the work with someone who cares.</p>
+          </article>
+        </div>
+        <p class="note">Every coach on this staff teaches under Brad. The standard does not change with the name on the lesson book.</p>
+      </div>
+    </section>
+
+    <section class="places" id="places">
+      <div class="wrap">
+        <p class="kicker">Indianapolis</p>
+        <h2>Three rooms. One program.</h2>
+        <p class="note" style="margin-bottom:1.5rem">We teach with three local facilities, so the work can happen on a simulator or on a course. You do not have to live at a single club to be coached properly.</p>
+        <article class="place">
+          <div>
+            <p class="where">Indoor · Carmel &amp; Keystone</p>
+            <h3>Five Wood Flats</h3>
+          </div>
+          <p>A private indoor club with modern simulators and room to work without an audience. Precise, quiet, and built for people who take the game seriously without making a show of it.</p>
+        </article>
+        <article class="place">
+          <div>
+            <p class="where">Indoor · Carmel</p>
+            <h3>Correct2Compete</h3>
+          </div>
+          <p>Launch monitors, simulator bays, and a real short-game space. The right room when practice has to be measured, repeated, and checked.</p>
+        </article>
+        <article class="place">
+          <div>
+            <p class="where">On course · Westfield</p>
+            <h3>Wood Wind Golf</h3>
+          </div>
+          <p>When the lesson needs wind, slope, and a real green. Wood Wind is where the indoor work has to prove it still plays.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="visit">
+      <div class="wrap visit-grid">
+        <div>
+          <p class="kicker">Begin</p>
+          <h2>Tell us where the game is.</h2>
+          <p>A note is enough. Say which program you are asking about, what you play now, and what you want next. We read every one. If we are the right fit, we will say so and get you started. If we are not, we will say that too.</p>
+          <ul class="reach">
+            <li><a href="mailto:bfellers@pga.com">bfellers@pga.com</a></li>
+            <li><a href="tel:13177504715">317-750-4715</a></li>
+          </ul>
+        </div>
+        <form id="note">
+          <div class="form-row">
+            <label>Name
+              <input name="name" type="text" autocomplete="name" required>
+            </label>
+            <label>Email
+              <input name="email" type="email" autocomplete="email" required>
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Phone
+              <input name="phone" type="tel" autocomplete="tel">
+            </label>
+            <label>Program
+              <select name="program" required>
+                <option value="Fellers">Fellers — accomplished players</option>
+                <option value="Fearless Fellers">Fearless Fellers — competitive students</option>
+                <option value="Not sure yet">Not sure yet</option>
+              </select>
+            </label>
+          </div>
+          <label>What do you want the game to do next?
+            <textarea name="message" required placeholder="Handicap or scoring average, what you are working on, and whether this is for you or a student."></textarea>
+          </label>
+          <button class="btn-ink" type="submit">Send a note</button>
+          <p class="form-status" id="form-status" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <span>Fellers · Indianapolis</span>
+      <span>Intelligent. Direct. Glad you’re here.</span>
+      <a href="#top">Back to top</a>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById("nav");
+    const toggle = document.querySelector(".menu-btn");
+    const links = document.getElementById("nav-links");
+    const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 8);
+    onScroll();
+    document.addEventListener("scroll", onScroll, { passive: true });
+
+    toggle.addEventListener("click", () => {
+      const open = links.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    links.addEventListener("click", (event) => {
+      if (event.target.closest("a")) {
+        links.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    const select = document.querySelector('select[name="program"]');
+    document.querySelectorAll("[data-program]").forEach((link) => {
+      link.addEventListener("click", () => {
+        select.value = link.dataset.program;
+      });
+    });
+
+    const form = document.getElementById("note");
+    const status = document.getElementById("form-status");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const program = data.get("program");
+      const body = [
+        `Name: ${data.get("name")}`,
+        `Email: ${data.get("email")}`,
+        `Phone: ${data.get("phone") || "—"}`,
+        `Program: ${program}`,
+        "",
+        data.get("message")
+      ].join("\n");
+      const href = `mailto:bfellers@pga.com?subject=${encodeURIComponent("Fellers — " + program)}&body=${encodeURIComponent(body)}`;
+      status.textContent = "Opening your email with this note.";
+      window.location.href = href;
+    });
+  </script>
+</body>
+</html>
